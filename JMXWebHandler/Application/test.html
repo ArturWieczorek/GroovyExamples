@@ -1,0 +1,69 @@
+<p> Select environment: </p>
+
+<select id="environments" onchange="run()"> 
+	<option value="select environment">select environment</option> 
+	<option value="stage">stage</option>
+    <option value="test">test</option>
+</select><br><br>
+
+<p>Numbers to add:</p>
+
+<form id="addNumbers">  
+	First number: <input type="number" id="numberOne" value="1" required><br>
+	Second number: <input type="number" id="numberTwo" value="1" required><br>
+	<input type="hidden" id="env" name="xxx" placeholder="get value on option select"><br>
+	<div id="data">Output:</div>
+	<div id="selectedEnvironment">Run on:</div>
+	<input type="submit" name="AddNumbers" value="AddNumbers">
+</form>
+
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+ 
+  $(function() {
+    $('select option[value="select environment"]').attr("selected",true);
+  });
+ 
+  </script>
+
+<script>
+ 
+$('#addNumbers').on('submit', function() {
+	var selectedEnvironment = $('#env').val()
+	
+	if (selectedEnvironment == "" || selectedEnvironment == "select environment"){
+		window.alert("Select environment !");
+		return;
+	}
+
+    $.post('start',
+		{
+			AddNumbers : "true",
+			numberOne : $('#numberOne').val(),
+			numberTwo : $('#numberTwo').val(),
+			environment : $('#env').val()
+	   },
+	   function(data) {
+
+	   		var results = data.split(';');
+	   		var calculationResult = results[0];
+	   		var environment = results[1]
+
+        	$('#data').text('');
+			$('#data').append('Output: ' + calculationResult);
+			$('#selectedEnvironment').text('');
+			$('#selectedEnvironment').append('Run on: ' + environment);
+		
+    	}
+    );
+	return false;
+});
+
+</script>
+
+<script>
+    function run() {
+        document.getElementById("env").value = document.getElementById("environments").value;
+    }
+</script>
