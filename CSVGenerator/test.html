@@ -1,0 +1,15 @@
+<h1>CSV Generator</h1>
+
+<p>Enter clients ID numbers:</p>
+<form id="generateCSV">
+	<input id="encodedNumbers" name="string" value="123450, 123452" />
+    <input id="download" type="submit" value="Download CSV file" />
+</form>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+$('#download').click(function(e) {
+    e.preventDefault();  //stop the browser from following
+    window.location.href = 'start?clients_numbers=' + $("#encodedNumbers").val();
+});
+</script>
